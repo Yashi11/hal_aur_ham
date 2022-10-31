@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hal_aur_ham/screens/Crop_Scan.dart';
 import 'package:tflite/tflite.dart';
@@ -16,7 +17,7 @@ class ScanResult extends StatefulWidget {
 
 class _ScanResultState extends State<ScanResult> {
   var results;
-  Future loadModel() async {
+  loadModel() async {
     await Tflite.loadModel(
       model: 'assets/models/myModel.tflite',
       labels: 'assets/models/label.txt',
@@ -71,7 +72,9 @@ class _ScanResultState extends State<ScanResult> {
                   height: 20,
                 ),
                 Text(
-                  "Disease: ${results[0]["label"]}",
+                  results != null
+                      ? "Disease: ${results[0]["label"]}"
+                      : "Loading...",
                   style: TextStyle(
                     fontSize: 14.0,
                     fontWeight: FontWeight.bold,
@@ -81,7 +84,9 @@ class _ScanResultState extends State<ScanResult> {
                   height: 20,
                 ),
                 Text(
-                  "Confidence:  ${(results[0]["confidence"] * 100).toStringAsFixed(2)}%",
+                  results != null
+                      ? "Confidence:  ${(results[0]["confidence"] * 100).toStringAsFixed(2)}%"
+                      : "Loading...",
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -101,7 +106,7 @@ class _ScanResultState extends State<ScanResult> {
                       style: TextStyle(fontSize: 20),
                     ),
                     trailing: Icon(
-                      Icons.video_library_outlined,
+                      CupertinoIcons.arrowtriangle_right_square,
                       size: 40,
                     ),
                   ),
